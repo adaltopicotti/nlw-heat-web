@@ -1,5 +1,0 @@
-[build]
-  publish = "/opt/build/repo/dist"
-  command = "yarn build"
-  commandOrigin= "config"
-  publishOrigin = "config"
