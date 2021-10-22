@@ -74,11 +74,11 @@ export function AuthProvider(props: AuthProviderProps) {
     if (hasGithubCode) {
       const [urlWithoutCode, githubCode] = url.split("?code=");
 
-      // if (isMobile) {
-      //   window.location.assign(
-      //     `https://auth.expo.io/@adaltopicottijr/nlw-heat-app?code=${githubCode}`
-      //   );
-      // }
+      if (isMobile) {
+        window.location.assign(
+          `https://auth.expo.io/@adaltopicottijr/nlw-heat-app?code=${githubCode}`
+        );
+      }
 
       window.history.pushState({}, "", urlWithoutCode);
 
