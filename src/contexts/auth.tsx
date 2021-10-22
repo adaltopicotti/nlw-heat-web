@@ -1,4 +1,5 @@
 import { createContext, ReactNode, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 import { api } from "../services/api";
 
 type User = {
@@ -40,7 +41,7 @@ export function AuthProvider(props: AuthProviderProps) {
     const response = await api.post<AuthResponse>("authenticate", {
       code: githubCode,
     });
-    
+
     const { token, user } = response.data;
 
     api.defaults.headers.common.authorization = `Bearer ${token}`;
@@ -48,31 +49,36 @@ export function AuthProvider(props: AuthProviderProps) {
     localStorage.setItem("@dowhile:token", token);
 
     setUser(user);
-
   }
 
   function signOut() {
-    setUser(null)
-    localStorage.removeItem('@dowhile:token');
+    setUser(null);
+    localStorage.removeItem("@dowhile:token");
   }
 
   useEffect(() => {
-    const token = localStorage.getItem('@dowhile:token');
+    const token = localStorage.getItem("@dowhile:token");
 
-    if(token) {
+    if (token) {
       api.defaults.headers.common.authorization = `Bearer ${token}`;
-      api.get<User>('profile').then(response => {
+      api.get<User>("profile").then((response) => {
         setUser(response.data);
-      })
+      });
     }
-  }, [])
-  
+  }, []);
+
   useEffect(() => {
     const url = window.location.href;
     const hasGithubCode = url.includes("?code=");
 
     if (hasGithubCode) {
       const [urlWithoutCode, githubCode] = url.split("?code=");
+
+      if (isMobile) {
+        window.location.assign(
+          `https://auth.expo.io/@adaltopicottijr/nlw-heat-app?code=${githubCode}`
+        );
+      }
 
       window.history.pushState({}, "", urlWithoutCode);
 
