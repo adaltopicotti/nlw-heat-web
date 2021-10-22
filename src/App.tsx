@@ -1,12 +1,21 @@
-import { useContext } from "react";
+
+import { useContext, useEffect } from "react";
+import { isMobile } from "react-device-detect";
 import styles from "./App.module.scss";
 import { LoginBox } from "./components/LoginBox";
 import { MessageList } from "./components/MessageList";
 import { SendMessageForm } from "./components/SendMessageForm";
 import { AuthContext } from "./contexts/auth";
 
+
 export function App() {
   const { user } = useContext(AuthContext);
+
+  useEffect(() => {
+    if(isMobile) {
+      window.location.assign(("https://auth.expo.io/@adaltopicottijr/nlw-heat-app?code=${code}"))
+    }
+  }, [])
 
   return (
     <main className={`${styles.contentWrapper} ${!!user ? styles.contentSigned : ''}`}>
