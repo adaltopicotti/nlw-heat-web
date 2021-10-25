@@ -81,9 +81,9 @@ export function AuthProvider(props: AuthProviderProps) {
         );
       }
 
+      signIn(githubCode);
       window.history.pushState({}, "", urlWithoutCode);
 
-      signIn(githubCode);
     }
   }, []);
 
