@@ -38,6 +38,7 @@ export function AuthProvider(props: AuthProviderProps) {
   const signInUrl = `https://github.com/login/oauth/authorize?scope=read:user&client_id=${import.meta.env.VITE_GITHUB_CLIENT_ID}`;
 
   async function signIn(githubCode: string) {
+    console.log('github code -> ', githubCode)
     const response = await api.post<AuthResponse>("authenticate", {
       code: githubCode,
     });
